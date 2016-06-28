@@ -8,7 +8,29 @@ app = Flask(__name__)
 CORS(app)
 
 
-access_codes = {"1": "ACME Corporation", "2": "Methods Digital", "3": "People Thinking"}
+access_codes = {
+    "1": {
+        "id": "123",
+        "name": "ACME Corporation",
+        "survey_id": "023",
+        "form_id": "0231",
+        "period": "0616"
+    },
+    "2": {
+        "id": "123",
+        "name": "Methods Digital",
+        "survey_id": "023",
+        "form_id": "0231",
+        "period": "0616"
+    },
+    "3": {
+        "id": "123",
+        "name": "People Thinking",
+        "survey_id": "023",
+        "form_id": "0231",
+        "period": "0616"
+    }
+}
 
 
 @app.route("/")
