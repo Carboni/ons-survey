@@ -9,6 +9,11 @@ app = Flask(__name__)
 CORS(app)
 
 
+@app.route("/")
+def list_codes():
+    return jsonify(access_codes)
+
+
 @app.route("/code")
 def check_code():
     query_args = request.args.to_dict()
@@ -22,11 +27,6 @@ def check_code():
     else:
         return known_error("Please supply an 'access_code' query parameter.")
     return jsonify(result)
-
-
-@app.route("/codes")
-def list_codes():
-    return jsonify(access_codes)
 
 
 @app.errorhandler(400)

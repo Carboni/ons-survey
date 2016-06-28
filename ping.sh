@@ -2,7 +2,7 @@
 
 while [ true ]
 do
-    curl -i http://localhost:5000/codes
+    curl -i http://localhost:5000/
     for access_code in $(echo 1 2 3 4)
     do
       curl -i \
