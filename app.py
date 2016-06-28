@@ -13,11 +13,17 @@ access_codes = {"1": "ACME Corporation", "2": "Methods Digital", "3": "People Th
 
 @app.route("/")
 def hello():
-    all_args = request.args.to_dict()
+    query_args = request.args.to_dict()
     result = "Test"
-    if "access_code" in all_args:
-        return jsonify(all_args["access_code"])
-    return jsonify(all_args)
+    if "access_code" in query_args:
+        access_code = query_args["access_code"]
+        if access_code in access_codes:
+            result = access_codes[access_code]
+        else:
+            return known_error("Unknown access code: " + access_code + ".")
+    else:
+        return known_error("Please supply an 'access_code' query parameter.")
+    return jsonify(result)
 
 
 @app.errorhandler(400)
