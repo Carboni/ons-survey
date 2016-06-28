@@ -1,7 +1,11 @@
 import os
 from flask import Flask, request, jsonify
+from flask.ext.cors import CORS
 
+
+# Set up the app with cross-origin resource sharing enabled:
 app = Flask(__name__)
+CORS(app)
 
 
 access_codes = {"1": "ACME Corporation", "2": "Methods Digital", "3": "People Thinking"}
@@ -10,6 +14,9 @@ access_codes = {"1": "ACME Corporation", "2": "Methods Digital", "3": "People Th
 @app.route("/")
 def hello():
     all_args = request.args.to_dict()
+    result = "Test"
+    if "access_code" in all_args:
+        return jsonify(all_args["access_code"])
     return jsonify(all_args)
 
 
