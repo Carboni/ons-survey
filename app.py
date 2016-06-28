@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, jsonify
-from flask.ext.cors import CORS
+from access_codes import access_codes
+from flask_cors import CORS
 
 
 # Set up the app with cross-origin resource sharing enabled:
@@ -8,33 +9,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-access_codes = {
-    "1": {
-        "id": "123",
-        "name": "ACME Corporation",
-        "survey_id": "023",
-        "form_id": "0231",
-        "period": "0616"
-    },
-    "2": {
-        "id": "123",
-        "name": "Methods Digital",
-        "survey_id": "023",
-        "form_id": "0231",
-        "period": "0616"
-    },
-    "3": {
-        "id": "123",
-        "name": "People Thinking",
-        "survey_id": "023",
-        "form_id": "0231",
-        "period": "0616"
-    }
-}
-
-
-@app.route("/")
-def hello():
+@app.route("/code")
+def check_code():
     query_args = request.args.to_dict()
     result = "Test"
     if "access_code" in query_args:
@@ -46,6 +22,11 @@ def hello():
     else:
         return known_error("Please supply an 'access_code' query parameter.")
     return jsonify(result)
+
+
+@app.route("/codes")
+def list_codes():
+    return jsonify(access_codes)
 
 
 @app.errorhandler(400)
@@ -72,18 +53,6 @@ def unknown_error(error=None):
     resp.status_code = 500
 
     return resp
-
-
-@app.route('/profile', methods=['POST'])
-def upsert():
-    profile = request.get_json()
-
-    if not profile:
-        return known_error("Request payload was empty")
-
-    app.logger.debug("profile: " + repr(profile))
-
-    return jsonify(profile)
 
 
 if __name__ == '__main__':
